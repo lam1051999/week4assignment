@@ -1,4 +1,4 @@
 # week4assignment
 
 
-![github](https://media.giphy.com/media/f5kiOLrZjsyTD55G2E/giphy.gif)
+![github](https://giphy.com/gifs/f5kiOLrZjsyTD55G2E/html5)
