@@ -1,11 +1,5 @@
 import React, { useState, useRef, useContext } from "react";
-import {
-  View,
-  Text,
-  Animated,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { View, Text, KeyboardAvoidingView, Platform } from "react-native";
 import { TodosStyles as styles } from "../../styles/Styles";
 import {
   FlatList,
@@ -14,26 +8,24 @@ import {
 } from "react-native-gesture-handler";
 import TodoItem from "./TodoItem";
 import { TodoListContext } from "../../../App";
+import Animated, { Value, interpolate } from "react-native-reanimated";
+
+const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 
 export default function Todos({ navigation }) {
   const { todoList, setTodoList } = useContext(TodoListContext);
   const [inputText, setInputText] = useState("");
-  const _scrollYAxis = useRef(new Animated.Value(0)).current;
-  const _onScroll = Animated.event(
-    [
-      {
-        nativeEvent: {
-          contentOffset: {
-            y: _scrollYAxis,
-          },
+  const _scrollYAxis = useRef(new Value(0)).current;
+  const _onScroll = Animated.event([
+    {
+      nativeEvent: {
+        contentOffset: {
+          y: _scrollYAxis,
         },
       },
-    ],
-    {
-      useNativeDriver: false,
-    }
-  );
-  const _scale = _scrollYAxis.interpolate({
+    },
+  ]);
+  const _scale = interpolate(_scrollYAxis, {
     inputRange: [-50, 0, 0],
     outputRange: [1.2, 1, 1],
   });
@@ -89,7 +81,7 @@ export default function Todos({ navigation }) {
       />
       <View style={styles.wrapper}>
         <Text style={styles.flatListTitle}>TODO LIST ({todoList.length})</Text>
-        <FlatList
+        <AnimatedFlatlist
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={<></>}
           stickyHeaderIndices={[0]}
